@@ -8,17 +8,14 @@ public class ProductTest
     [TestMethod]
     public void CreateNewProductTest()
     {
-        // Arrange
+        // Act
         var product = new Product(1, "Test", 10, Currency.USD, 10);
 
-        // Act
-        var result = product;
-
         // Assert
-        Assert.AreEqual(1, result.Id);
-        Assert.AreEqual("Test", result.Name);
-        Assert.AreEqual(10, result.Price);
-        Assert.AreEqual(Currency.USD, result.Currency);
-        Assert.AreEqual(10, result.Quantity);
+        Assert.AreEqual(1, product.Id);
+        Assert.AreEqual("Test", product.Name);
+        Assert.AreEqual(10, product.Price);
+        Assert.AreEqual(Currency.USD, product.Currency);
+        Assert.AreEqual(10, product.Quantity);
     }
 }
