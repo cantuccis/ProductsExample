@@ -1,3 +1,5 @@
+using Backend;
+
 namespace Backend.Test;
 
 [TestClass]
