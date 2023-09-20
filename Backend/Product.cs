@@ -4,9 +4,22 @@ namespace Backend
     {
         private double price;
         private int quantity;
+        private string name = string.Empty;
 
         public int Id { get; private set; }
-        public string Name { get; private set; }
+        public string Name
+        {
+            get => name;
+            private set
+            {
+                if (value == string.Empty)
+                {
+                    throw new ArgumentException("Name cannot be empty");
+                }
+
+                name = value;
+            }
+        }
         public double Price
         {
             get => price;
@@ -38,8 +51,6 @@ namespace Backend
 
         public Product(int id, ProductData data)
         {
-            if(data.Name == "") throw new ArgumentException("Name cannot be empty");
-
             Id = id;
             Name = data.Name;
             Price = data.Price;
