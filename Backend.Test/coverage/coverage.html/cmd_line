@@ -1,0 +1,1 @@
+genhtml TestResults/e6bdbc78-d9bc-491e-aeb4-9bc289345903/coverage.info -o coverage/coverage.html
