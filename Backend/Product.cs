@@ -10,6 +10,10 @@ namespace Backend
 
         public Product(int id, ProductData data)
         {
+            if(data.Price < 0) {
+                throw new ArgumentException("Price cannot be negative");
+            }
+
             Id = id;
             Name = data.Name;
             Price = data.Price;
