@@ -1,5 +1,3 @@
-using Backend;
-
 namespace Backend.Test;
 
 [TestClass]
@@ -20,7 +18,6 @@ public class WarehouseTest
         // Assert
         Assert.AreEqual(1, warehouse.Id);
         Assert.AreEqual(warehouseData.Name, warehouse.Name);
-        Assert.AreEqual(warehouseData.Address, warehouse.Address);
     }
 
     [TestMethod]
@@ -30,7 +27,6 @@ public class WarehouseTest
         var warehouseData = new WarehouseData
         {
             Name = string.Empty,
-            Address = "Test",
         };
 
         // Act
@@ -86,7 +82,7 @@ public class WarehouseTest
         warehouse.StoreProduct(product);
 
         // Act
-        warehouse.DeleteProduct(product);
+        warehouse.DeleteProduct(product.Id);
 
         // Assert
         Assert.AreEqual(0, warehouse.Products.Count);
@@ -101,20 +97,12 @@ public class WarehouseTest
             Name = "Test",
         };
         var warehouse = new Warehouse(1, warehouseData);
-        var productData = new ProductData
-        {
-            Name = "Test",
-            Price = 10,
-            Currency = Currency.USD,
-            Quantity = 10,
-        };
-        var product = new Product(1, productData);
 
         // Act
-        var exception = Assert.ThrowsException<ArgumentException>(() => warehouse.DeleteProduct(product));
+        var exception = Assert.ThrowsException<ArgumentException>(() => warehouse.DeleteProduct(1));
 
         // Assert
-        Assert.AreEqual("Product does not exist in warehouse", exception.Message);
+        Assert.AreEqual("Product does not exist", exception.Message);
     }
 
     [TestMethod]
@@ -140,76 +128,10 @@ public class WarehouseTest
         var exception = Assert.ThrowsException<ArgumentException>(() => warehouse.StoreProduct(product));
 
         // Assert
-        Assert.AreEqual("Product already exists in warehouse", exception.Message);
+        Assert.AreEqual("Product already exists", exception.Message);
     }
 
-    [TestMethod]
-    public void UpdateProductDataTest() 
-    {
-        // Arrange
-        var warehouseData = new WarehouseData
-        {
-            Name = "Test",
-        };
-        var warehouse = new Warehouse(1, warehouseData);
-        var productData = new ProductData
-        {
-            Name = "Test",
-            Price = 10,
-            Currency = Currency.USD,
-            Quantity = 10,
-        };
-        var product = new Product(1, productData);
-        warehouse.StoreProduct(product);
-        var newProductData = new ProductData
-        {
-            Name = "Test2",
-            Price = 20,
-            Currency = Currency.USD,
-            Quantity = 20,
-        };
-
-        // Act
-        warehouse.UpdateProductData(product.Id, newProductData);
-
-        // Assert
-        Assert.AreEqual(newProductData.Name, product.Name);
-        Assert.AreEqual(newProductData.Price, product.Price);
-        Assert.AreEqual(newProductData.Currency, product.Currency);
-        Assert.AreEqual(newProductData.Quantity, product.Quantity);
-    }
-
-    [TestMethod]
-    public void UpdateProductDataWithNonExistingProductShouldFailTest() 
-    {
-        // Arrange
-        var warehouseData = new WarehouseData
-        {
-            Name = "Test",
-        };
-        var warehouse = new Warehouse(1, warehouseData);
-        var productData = new ProductData
-        {
-            Name = "Test",
-            Price = 10,
-            Currency = Currency.USD,
-            Quantity = 10,
-        };
-        var product = new Product(1, productData);
-        var newProductData = new ProductData
-        {
-            Name = "Test2",
-            Price = 20,
-            Currency = Currency.USD,
-            Quantity = 20,
-        };
-
-        // Act
-        var exception = Assert.ThrowsException<ArgumentException>(() => warehouse.UpdateProductData(product.Id, newProductData));
-
-        // Assert
-        Assert.AreEqual("Product does not exist in warehouse", exception.Message);
-    }
+  
 
     [TestMethod]
     public void GetProductsTest() 
@@ -240,7 +162,7 @@ public class WarehouseTest
         warehouse.StoreProduct(product2);
 
         // Act
-        var products = warehouse.GetProducts();
+        var products = warehouse.Products;
 
         // Assert
         Assert.AreEqual(2, products.Count);
@@ -297,7 +219,7 @@ public class WarehouseTest
         var exception = Assert.ThrowsException<ArgumentException>(() => warehouse.GetProductById(1));
 
         // Assert
-        Assert.AreEqual("Product does not exist in warehouse", exception.Message);
+        Assert.AreEqual("Product does not exist", exception.Message);
     }
     
 }
