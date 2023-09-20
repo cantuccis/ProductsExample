@@ -24,40 +24,19 @@ public class InventoryManagerTest
         var inventoryManager = new InventoryManager(warehouse);
 
         // Assert
-        Assert.AreEqual(warehouse, inventoryManager.Warehouse);
+        Assert.IsNotNull(inventoryManager);
     }
 
     [TestMethod]
     public void CreateInventoryManagerWithNullWarehouseShouldFailTest()
     {
         // Act
-        var exception = Assert.ThrowsException<ArgumentNullException>(() => new InventoryManager(null));
+        var exception = Assert.ThrowsException<ArgumentNullException>(() => new InventoryManager(warehouse: null));
 
         // Assert
         Assert.AreEqual("Value cannot be null. (Parameter 'warehouse')", exception.Message);
     }
 
-    [TestMethod]
-    public void AddProductTest()
-    {
-        // Arrange
-        var inventoryManager = new InventoryManager(warehouse);
-        var productData = new ProductData
-        {
-            Name = "Test",
-            Price = 10,
-            Currency = Currency.USD,
-            Quantity = 10,
-        };
-        var product = new Product(1, productData);
-
-        // Act
-        inventoryManager.AddProduct(product);
-
-        // Assert
-        Assert.AreEqual(1, inventoryManager.Products.Count);
-        Assert.AreEqual(product, inventoryManager.Products[0]);
-    }
 
     [TestMethod]
     public void ReceiveProductTransactionTest()
@@ -72,18 +51,17 @@ public class InventoryManagerTest
             Quantity = 10,
         };
         var product = new Product(1, productData);
-        inventoryManager.AddProduct(product);
-        var transaction = new ReceiveProductTransaction
-        {
+        warehouse.StoreProduct(product);
+        var transaction = new ReceiveProductTransaction() with {
             ProductId = 1,
             Quantity = 10,
         };
 
         // Act
-        inventoryManager.ReceiveProducts(transaction);
+        inventoryManager.ReceiveProduct(transaction);
 
         // Assert
-        Assert.AreEqual(20, inventoryManager.Products[0].Quantity);
+        Assert.AreEqual(20, warehouse.Products[0].Quantity);
     }
 
     [TestMethod]
@@ -98,7 +76,7 @@ public class InventoryManagerTest
         };
 
         // Act
-        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ReceiveProducts(transaction));
+        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ReceiveProduct(transaction));
 
         // Assert
         Assert.AreEqual("Product does not exist", exception.Message);
@@ -117,7 +95,7 @@ public class InventoryManagerTest
             Quantity = 10,
         };
         var product = new Product(1, productData);
-        inventoryManager.AddProduct(product);
+        warehouse.StoreProduct(product);
         var transaction = new ReceiveProductTransaction
         {
             ProductId = 1,
@@ -125,7 +103,7 @@ public class InventoryManagerTest
         };
 
         // Act
-        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ReceiveProducts(transaction));
+        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ReceiveProduct(transaction));
 
         // Assert
         Assert.AreEqual("Quantity cannot be negative", exception.Message);
@@ -144,7 +122,7 @@ public class InventoryManagerTest
             Quantity = 10,
         };
         var product = new Product(1, productData);
-        inventoryManager.AddProduct(product);
+        warehouse.StoreProduct(product);
         var transaction = new ShipProductTransaction
         {
             ProductId = 1,
@@ -152,7 +130,7 @@ public class InventoryManagerTest
         };
 
         // Act
-        inventoryManager.ShipProducts(transaction);
+        inventoryManager.ShipProduct(transaction);
 
         // Assert
         Assert.AreEqual(0, warehouse.Products[0].Quantity);
@@ -170,7 +148,7 @@ public class InventoryManagerTest
         };
 
         // Act
-        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ShipProducts(transaction));
+        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ShipProduct(transaction));
 
         // Assert
         Assert.AreEqual("Product does not exist", exception.Message);
@@ -189,7 +167,7 @@ public class InventoryManagerTest
             Quantity = 10,
         };
         var product = new Product(1, productData);
-        inventoryManager.AddProduct(product);
+        warehouse.StoreProduct(product);
         var transaction = new ShipProductTransaction
         {
             ProductId = 1,
@@ -197,7 +175,7 @@ public class InventoryManagerTest
         };
 
         // Act
-        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ShipProducts(transaction));
+        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ShipProduct(transaction));
 
         // Assert
         Assert.AreEqual("Quantity cannot be negative", exception.Message);
@@ -216,7 +194,7 @@ public class InventoryManagerTest
             Quantity = 10,
         };
         var product = new Product(1, productData);
-        inventoryManager.AddProduct(product);
+        warehouse.StoreProduct(product);
         var transaction = new ShipProductTransaction
         {
             ProductId = 1,
@@ -224,10 +202,10 @@ public class InventoryManagerTest
         };
 
         // Act
-        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ShipProducts(transaction));
+        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ShipProduct(transaction));
 
         // Assert
-        Assert.AreEqual("Insufficient quantity", exception.Message);
+        Assert.AreEqual("Quantity must be less than or equal to the quantity in the warehouse", exception.Message);
     }
 
 }

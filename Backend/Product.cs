@@ -38,7 +38,7 @@ namespace Backend
 
         public int Quantity
         {
-            get => quantity; private set
+            get => quantity;  set
             {
 
                 if (value < 0)
