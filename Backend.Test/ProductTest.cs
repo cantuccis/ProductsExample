@@ -47,4 +47,23 @@ public class ProductTest
         Assert.AreEqual("Price cannot be negative", exception.Message);
     }
 
+    [TestMethod]
+    public void CreateProductWithNegativeQuantityShouldFailTest()
+    {
+        // Arrange
+        var productData = new ProductData
+        {
+            Name = "Test",
+            Price = 10,
+            Currency = Currency.USD,
+            Quantity = -10,
+        };
+
+        // Act
+        var exception = Assert.ThrowsException<ArgumentException>(() => new Product(1, productData));
+
+        // Assert
+        Assert.AreEqual("Quantity cannot be negative", exception.Message);
+    }
+
 }
