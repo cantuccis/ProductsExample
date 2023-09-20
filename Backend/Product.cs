@@ -34,7 +34,7 @@ namespace Backend
                 price = value;
             }
         }
-        public Currency Currency { get; private set; }
+        public Currency Currency { get; private set; } = Currency.USD;
 
         public int Quantity
         {

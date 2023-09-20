@@ -52,5 +52,7 @@ namespace Backend
         {
             return products.FirstOrDefault(p => p.Id == id) ?? throw new ArgumentException("Product does not exist");
         }
+
+        public int NextProductId => products.Count > 0 ? products.Max(p => p.Id) + 1 : 1;
     }
 }

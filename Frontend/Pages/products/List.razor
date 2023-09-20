@@ -1,0 +1,43 @@
+@page "/products"
+@using Frontend.Data
+@using Backend
+@inject CurrentWarehouseController currentWarehouseController
+
+<PageTitle>Warehouse products</PageTitle>
+
+<h1>Products in @currentWarehouseController.WarehouseName</h1>
+
+<p>This component shows product details and their current quantity.</p>
+
+<a class="btn btn-primary" href="/products/create/">Add new product</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>QTY</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in products)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Name</td>
+                <td>@product.Currency @product.Price</td>
+                <td>@product.Quantity</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<Product> products = new();
+
+    protected override void OnInitialized()
+    {
+        products = currentWarehouseController.Products;
+    }
+}
