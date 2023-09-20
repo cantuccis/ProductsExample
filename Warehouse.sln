@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Test", "Backend.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\Backend.csproj", "{D2A6A9FD-9DDB-4E04-9D99-6AA15DE237E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "Frontend\Frontend.csproj", "{410A793F-56DB-4657-A8B1-318785EA3F21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{D2A6A9FD-9DDB-4E04-9D99-6AA15DE237E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2A6A9FD-9DDB-4E04-9D99-6AA15DE237E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2A6A9FD-9DDB-4E04-9D99-6AA15DE237E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{410A793F-56DB-4657-A8B1-318785EA3F21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{410A793F-56DB-4657-A8B1-318785EA3F21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{410A793F-56DB-4657-A8B1-318785EA3F21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{410A793F-56DB-4657-A8B1-318785EA3F21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
