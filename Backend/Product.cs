@@ -22,7 +22,7 @@ namespace Backend
             }
         }
         public Currency Currency { get; private set; }
-        
+
         public int Quantity
         {
             get => quantity; private set
@@ -38,6 +38,8 @@ namespace Backend
 
         public Product(int id, ProductData data)
         {
+            if(data.Name == "") throw new ArgumentException("Name cannot be empty");
+
             Id = id;
             Name = data.Name;
             Price = data.Price;
