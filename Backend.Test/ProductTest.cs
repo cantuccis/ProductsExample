@@ -66,4 +66,23 @@ public class ProductTest
         Assert.AreEqual("Quantity cannot be negative", exception.Message);
     }
 
+    [TestMethod]
+    public void CreateProductWithEmptyNameShouldFailTest()
+    {
+        // Arrange
+        var productData = new ProductData
+        {
+            Name = "",
+            Price = 10,
+            Currency = Currency.USD,
+            Quantity = 10,
+        };
+
+        // Act
+        var exception = Assert.ThrowsException<ArgumentException>(() => new Product(1, productData));
+
+        // Assert
+        Assert.AreEqual("Name cannot be empty", exception.Message);
+    }    
+
 }
