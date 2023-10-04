@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Backend.Auth;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,7 +56,7 @@ public class AuthTest
 
         // Assert
         Assert.IsNotNull(credentials);
-        Assert.AreEqual(credentials.Username);
+        Assert.AreEqual(credentials.Username, "someuser");
     }
 
     [TestMethod]
