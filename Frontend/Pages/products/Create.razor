@@ -1,0 +1,55 @@
+@page "/products/create/"
+@using Frontend.Data
+@using Backend
+@inject CurrentWarehouseController currentWarehouseController
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create product</PageTitle>
+
+<h1>Create product</h1>
+
+<p>Create a new product in warehouse: @currentWarehouseController.WarehouseName</p>
+
+<form>
+  
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" @bind="currentProductData.Name" />
+    </div>
+    <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" class="form-control" id="price" @bind="currentProductData.Price" />
+    </div>
+    <div class="form-group">
+        <label for="releaseYear">Quantity</label>
+        <input type="number" class="form-control" id="quantity" @bind="currentProductData.Quantity" />
+    </div>
+
+    <div class="form-error">
+        @errorMessage
+    </div>
+    
+    <button type="button" class="btn btn-primary" @onclick="SaveChanges">Save</button>
+    <a href="/products">Cancel</a>
+</form>
+
+
+@code {
+    private ProductData currentProductData = new ProductData();
+
+    private string errorMessage = "";
+
+    private void SaveChanges()
+    {
+        try
+        {
+            var product = new Product(currentWarehouseController.NextProductId, currentProductData);
+            currentWarehouseController.StoreProduct(product);
+            NavigationManager.NavigateTo("/products");
+        }
+        catch (ArgumentException ex)
+        {
+            errorMessage = ex.Message;
+        }
+    }
+}
