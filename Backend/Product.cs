@@ -6,7 +6,7 @@ namespace Backend
         private int quantity;
         private string name = string.Empty;
 
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public string Name
         {
             get => name;
