@@ -58,5 +58,27 @@ namespace Backend
             Quantity = data.Quantity;
         }
 
+        public void ProcessShipTransaction(ShipProductTransaction transaction)
+        {
+            if (transaction.Quantity < 0)
+            {
+                throw new ArgumentException("Quantity cannot be negative");
+            }
+            if (Quantity < transaction.Quantity)
+            {
+                throw new ArgumentException("Quantity must be less than or equal to the quantity in the warehouse");
+            }
+            Quantity -= transaction.Quantity;
+        }
+
+        public void ProcessReceiveTransaction(ReceiveProductTransaction transaction)
+        {
+            if (transaction.Quantity < 0)
+            {
+                throw new ArgumentException("Quantity cannot be negative");
+            }
+            Quantity += transaction.Quantity;
+        }
+
     }
 }
