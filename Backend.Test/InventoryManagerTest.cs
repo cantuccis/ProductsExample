@@ -1,12 +1,14 @@
+using Backend.Auth;
+
 namespace Backend.Test;
 
 [TestClass]
 public class InventoryManagerTest
 {
-    private Warehouse warehouse = new(1, new WarehouseData
-    {
-        Name = "Test",
-    });
+
+    private Warehouse warehouse;
+    private AuthManager authManager;
+    private Credentials creds;
 
     [TestInitialize]
     public void SetUp()
@@ -14,7 +16,11 @@ public class InventoryManagerTest
         warehouse = new(1, new WarehouseData
         {
             Name = "Test",
-        });
+        },
+        new("owner", "owner"));
+        authManager = new AuthManager();
+        authManager.SignUp("owner", "owner");
+        creds = authManager.SignIn("owner", "owner");
     }
 
     [TestMethod]
@@ -52,13 +58,14 @@ public class InventoryManagerTest
         };
         var product = new Product(1, productData);
         warehouse.StoreProduct(product);
-        var transaction = new ReceiveProductTransaction() with {
+        var transaction = new ReceiveProductTransaction() with
+        {
             ProductId = 1,
             Quantity = 10,
         };
 
         // Act
-        inventoryManager.ReceiveProduct(transaction);
+        inventoryManager.ReceiveProduct(creds, transaction);
 
         // Assert
         Assert.AreEqual(20, warehouse.Products[0].Quantity);
@@ -76,7 +83,7 @@ public class InventoryManagerTest
         };
 
         // Act
-        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ReceiveProduct(transaction));
+        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ReceiveProduct(creds, transaction));
 
         // Assert
         Assert.AreEqual("Product does not exist", exception.Message);
@@ -103,7 +110,7 @@ public class InventoryManagerTest
         };
 
         // Act
-        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ReceiveProduct(transaction));
+        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ReceiveProduct(creds, transaction));
 
         // Assert
         Assert.AreEqual("Quantity cannot be negative", exception.Message);
@@ -130,7 +137,7 @@ public class InventoryManagerTest
         };
 
         // Act
-        inventoryManager.ShipProduct(transaction);
+        inventoryManager.ShipProduct(creds, transaction);
 
         // Assert
         Assert.AreEqual(0, warehouse.Products[0].Quantity);
@@ -148,7 +155,7 @@ public class InventoryManagerTest
         };
 
         // Act
-        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ShipProduct(transaction));
+        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ShipProduct(creds, transaction));
 
         // Assert
         Assert.AreEqual("Product does not exist", exception.Message);
@@ -175,7 +182,7 @@ public class InventoryManagerTest
         };
 
         // Act
-        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ShipProduct(transaction));
+        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ShipProduct(creds, transaction));
 
         // Assert
         Assert.AreEqual("Quantity cannot be negative", exception.Message);
@@ -202,7 +209,7 @@ public class InventoryManagerTest
         };
 
         // Act
-        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ShipProduct(transaction));
+        var exception = Assert.ThrowsException<ArgumentException>(() => inventoryManager.ShipProduct(creds, transaction));
 
         // Assert
         Assert.AreEqual("Quantity must be less than or equal to the quantity in the warehouse", exception.Message);

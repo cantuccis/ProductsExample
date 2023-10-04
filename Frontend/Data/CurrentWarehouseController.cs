@@ -11,7 +11,7 @@ public class CurrentWarehouseController
         warehouse = new(1, new WarehouseData
         {
             Name = "Warehouse 1",
-        });
+        }, new("owner", "owner"));
     }
 
     public List<Product> Products => warehouse.Products.ToList();

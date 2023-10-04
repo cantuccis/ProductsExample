@@ -1,4 +1,6 @@
-﻿namespace Backend
+﻿using Backend.Auth;
+
+namespace Backend
 {
     public class User
     {
@@ -35,5 +37,7 @@
         }
 
         public bool IsPasswordCorrect(string password) => password == this.Password;
+
+        public bool AreCredentialsValid(Credentials creds) => Username == creds.Username;
     }
 }

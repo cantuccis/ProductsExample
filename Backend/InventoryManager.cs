@@ -1,3 +1,5 @@
+using Backend.Auth;
+
 namespace Backend
 {
     public class InventoryManager
@@ -14,15 +16,25 @@ namespace Backend
         }
 
 
-        public void  ReceiveProduct(ReceiveProductTransaction transaction)
+        public void  ReceiveProduct(Credentials creds, ReceiveProductTransaction transaction)
         {
+            if(!warehouse.Allows(creds))
+            {
+                throw new InvalidOperationException("Invalid credentials");
+            }
+
             var product = warehouse.GetProductById(transaction.ProductId);
             product.ProcessReceiveTransaction(transaction);
             receiveTransactions.Add(transaction);
         }
 
-        public void ShipProduct(ShipProductTransaction transaction)
+        public void ShipProduct(Credentials creds, ShipProductTransaction transaction)
         {
+            if (!warehouse.Allows(creds))
+            {
+                throw new InvalidOperationException("Invalid credentials");
+            }
+
             var product = warehouse.GetProductById(transaction.ProductId);
             product.ProcessShipTransaction(transaction);
             shippedTransactions.Add(transaction);

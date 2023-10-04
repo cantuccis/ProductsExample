@@ -3,6 +3,8 @@ namespace Backend.Test;
 [TestClass]
 public class WarehouseTest
 {
+    private User owner = new User("owner", "owner");
+     
     [TestMethod]
     public void CreateNewWarehouseTest()
     {
@@ -13,7 +15,7 @@ public class WarehouseTest
         };
 
         // Act
-        var warehouse = new Warehouse(1, warehouseData);
+        var warehouse = new Warehouse(1, warehouseData, owner);
 
         // Assert
         Assert.AreEqual(1, warehouse.Id);
@@ -30,7 +32,7 @@ public class WarehouseTest
         };
 
         // Act
-        var exception = Assert.ThrowsException<ArgumentException>(() => new Warehouse(1, warehouseData));
+        var exception = Assert.ThrowsException<ArgumentException>(() => new Warehouse(1, warehouseData, owner));
 
         // Assert
         Assert.AreEqual("Name cannot be empty", exception.Message);
@@ -44,7 +46,7 @@ public class WarehouseTest
         {
             Name = "Test",
         };
-        var warehouse = new Warehouse(1, warehouseData);
+        var warehouse = new Warehouse(1, warehouseData, owner);
         var productData = new ProductData
         {
             Name = "Test",
@@ -70,7 +72,7 @@ public class WarehouseTest
         {
             Name = "Test",
         };
-        var warehouse = new Warehouse(1, warehouseData);
+        var warehouse = new Warehouse(1, warehouseData, owner);
         var productData = new ProductData
         {
             Name = "Test",
@@ -96,7 +98,7 @@ public class WarehouseTest
         {
             Name = "Test",
         };
-        var warehouse = new Warehouse(1, warehouseData);
+        var warehouse = new Warehouse(1, warehouseData, owner);
 
         // Act
         var exception = Assert.ThrowsException<ArgumentException>(() => warehouse.DeleteProduct(1));
@@ -113,7 +115,7 @@ public class WarehouseTest
         {
             Name = "Test",
         };
-        var warehouse = new Warehouse(1, warehouseData);
+        var warehouse = new Warehouse(1, warehouseData, owner);
         var productData = new ProductData
         {
             Name = "Test",
@@ -141,7 +143,7 @@ public class WarehouseTest
         {
             Name = "Test",
         };
-        var warehouse = new Warehouse(1, warehouseData);
+        var warehouse = new Warehouse(1, warehouseData, owner);
         var productData1 = new ProductData
         {
             Name = "Test1",
@@ -178,7 +180,7 @@ public class WarehouseTest
         {
             Name = "Test",
         };
-        var warehouse = new Warehouse(1, warehouseData);
+        var warehouse = new Warehouse(1, warehouseData, owner);
         var productData1 = new ProductData
         {
             Name = "Test1",
@@ -213,7 +215,7 @@ public class WarehouseTest
         {
             Name = "Test",
         };
-        var warehouse = new Warehouse(1, warehouseData);
+        var warehouse = new Warehouse(1, warehouseData, owner);
 
         // Act
         var exception = Assert.ThrowsException<ArgumentException>(() => warehouse.GetProductById(1));

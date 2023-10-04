@@ -1,15 +1,20 @@
+using Backend.Auth;
+
 namespace Backend
 {
     public class Warehouse
     {
         public int Id { get; set; }
+
         private string name = string.Empty;
         private readonly List<Product> products = new();
+        private readonly User owner;
 
-        public Warehouse(int id, WarehouseData data)
+        public Warehouse(int id, WarehouseData data, User owner)
         {
             Id = id;
             Name = data.Name;
+            this.owner = owner;
         }
 
         public string Name
@@ -53,6 +58,8 @@ namespace Backend
         {
             return products.FirstOrDefault(p => p.Id == id) ?? throw new ArgumentException("Product does not exist");
         }
+
+        public bool Allows(Credentials creds) => owner.AreCredentialsValid(creds);
 
         private int NextProductId => products.Count > 0 ? products.Max(p => p.Id) + 1 : 1;
     }
