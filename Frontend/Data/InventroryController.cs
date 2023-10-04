@@ -16,4 +16,10 @@ public class InventroyController
         inventoryManager.ReceiveProduct(transaction);
     }
 
+    public void ShipProduct(ShipProductTransaction transaction, Warehouse warehouse)
+    {
+        var inventoryManager = new InventoryManager(warehouse);
+        inventoryManager.ShipProduct(transaction);
+    }
+
 }
