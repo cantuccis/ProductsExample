@@ -193,7 +193,7 @@ public class InventoryManagerTest
             Currency = Currency.USD,
             Quantity = 10,
         };
-        var product = new Product(1, productData);
+        var product = new Product(0, productData);
         warehouse.StoreProduct(product);
         var transaction = new ShipProductTransaction
         {

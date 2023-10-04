@@ -6,7 +6,7 @@ namespace Backend
         private int quantity;
         private string name = string.Empty;
 
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public string Name
         {
             get => name;
@@ -56,6 +56,28 @@ namespace Backend
             Price = data.Price;
             Currency = data.Currency;
             Quantity = data.Quantity;
+        }
+
+        public void ProcessShipTransaction(ShipProductTransaction transaction)
+        {
+            if (transaction.Quantity < 0)
+            {
+                throw new ArgumentException("Quantity cannot be negative");
+            }
+            if (Quantity < transaction.Quantity)
+            {
+                throw new ArgumentException("Quantity must be less than or equal to the quantity in the warehouse");
+            }
+            Quantity -= transaction.Quantity;
+        }
+
+        public void ProcessReceiveTransaction(ReceiveProductTransaction transaction)
+        {
+            if (transaction.Quantity < 0)
+            {
+                throw new ArgumentException("Quantity cannot be negative");
+            }
+            Quantity += transaction.Quantity;
         }
 
     }

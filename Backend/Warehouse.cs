@@ -2,6 +2,7 @@ namespace Backend
 {
     public class Warehouse
     {
+        public int Id { get; set; }
         private string name = string.Empty;
         private readonly List<Product> products = new();
 
@@ -11,7 +12,6 @@ namespace Backend
             Name = data.Name;
         }
 
-        public int Id { get; set; }
         public string Name
         {
             get => name;
@@ -34,11 +34,12 @@ namespace Backend
                 throw new ArgumentNullException(nameof(product));
             }
 
-            if (products.Any(p => p.Id == product.Id))
+            if (products.Any(p => p.Name == product.Name))
             {
-                throw new ArgumentException("Product already exists");
+                throw new ArgumentException($"Product {product.Name} already exists");
             }
 
+            product.Id = NextProductId;
             products.Add(product);
         }
 
@@ -53,6 +54,6 @@ namespace Backend
             return products.FirstOrDefault(p => p.Id == id) ?? throw new ArgumentException("Product does not exist");
         }
 
-        public int NextProductId => products.Count > 0 ? products.Max(p => p.Id) + 1 : 1;
+        private int NextProductId => products.Count > 0 ? products.Max(p => p.Id) + 1 : 1;
     }
 }

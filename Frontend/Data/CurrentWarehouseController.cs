@@ -22,7 +22,5 @@ public class CurrentWarehouseController
 
     public string WarehouseName => warehouse.Name;
 
-    public int NextProductId => warehouse.NextProductId;
-
 
 }

@@ -106,7 +106,7 @@ public class WarehouseTest
     }
 
     [TestMethod]
-    public void StoreProductWithAlreadyExistingProductShouldFailTest() 
+    public void StoreAlreadyExistingProductShouldFailTest() 
     {
         // Arrange
         var warehouseData = new WarehouseData
@@ -128,7 +128,7 @@ public class WarehouseTest
         var exception = Assert.ThrowsException<ArgumentException>(() => warehouse.StoreProduct(product));
 
         // Assert
-        Assert.AreEqual("Product already exists", exception.Message);
+        Assert.AreEqual("Product Test already exists", exception.Message);
     }
 
   
@@ -149,7 +149,7 @@ public class WarehouseTest
             Currency = Currency.USD,
             Quantity = 10,
         };
-        var product1 = new Product(1, productData1);
+        var product1 = new Product(0, productData1);
         var productData2 = new ProductData
         {
             Name = "Test2",
@@ -157,7 +157,7 @@ public class WarehouseTest
             Currency = Currency.USD,
             Quantity = 20,
         };
-        var product2 = new Product(2, productData2);
+        var product2 = new Product(0, productData2);
         warehouse.StoreProduct(product1);
         warehouse.StoreProduct(product2);
 
@@ -186,7 +186,7 @@ public class WarehouseTest
             Currency = Currency.USD,
             Quantity = 10,
         };
-        var product1 = new Product(1, productData1);
+        var product1 = new Product(0, productData1);
         var productData2 = new ProductData
         {
             Name = "Test2",
@@ -194,7 +194,7 @@ public class WarehouseTest
             Currency = Currency.USD,
             Quantity = 20,
         };
-        var product2 = new Product(2, productData2);
+        var product2 = new Product(0, productData2);
         warehouse.StoreProduct(product1);
         warehouse.StoreProduct(product2);
 
