@@ -1,0 +1,59 @@
+﻿@page "/auth/sign-up"
+@using Frontend.Data;
+@inject NavigationManager navigationManager
+@inject AuthController auth;
+
+<h3>Sign Up</h3>
+
+<form>
+
+    <div class="form-group">
+        <label for="name">Username</label>
+        <input type="text" class="form-control" id="name" @bind="username" />
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="passwrod" @bind="password" />
+    </div>
+    <div class="form-group">
+        <label for="confirm-password">Confirm password</label>
+        <input type="password" class="form-control" id="confirm-password" @bind="confirmPassword" />
+    </div>
+
+    <br />
+
+    <div class="form-error">
+        @errorMessage
+    </div>
+
+    <button type="button" class="btn btn-primary" @onclick="SignInBtn">Sign in</button>
+    <br />
+    <a href="/auth/sign-in/">Or sign in</a>
+</form>
+
+
+@code {
+    private string username = "";
+    private string password = "";
+    private string confirmPassword = "";
+    private string errorMessage = "";
+
+    private void SignInBtn()
+    {
+        try
+        {
+            if (password != confirmPassword)
+            {
+                errorMessage = "Passwords doesn't match";
+                return;
+            }
+            auth.SignUp(username, password);
+            auth.SignIn(username, password);
+            navigationManager.NavigateTo("/");
+        }
+        catch (ArgumentException ex)
+        {
+            errorMessage = ex.Message;
+        }
+    }
+}

@@ -1,0 +1,19 @@
+﻿@using Frontend.Data;
+@inject NavigationManager NavigationManager
+@inject AuthController auth;
+
+
+@code {
+    protected override void OnAfterRender(bool firstRender) => CheckUserAuthentication();
+
+
+    public void CheckUserAuthentication()
+    {
+        var uri = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        if (!auth.IsSignedIn && uri != "auth/sign-in" && uri != "auth/sign-up")
+        {
+             
+            NavigationManager.NavigateTo("/auth/sign-in");
+        }
+    }
+}

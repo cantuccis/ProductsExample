@@ -13,6 +13,7 @@ namespace Backend
         public InventoryManager(Warehouse warehouse)
         {
             this.warehouse = warehouse ?? throw new ArgumentNullException(nameof(warehouse));
+
         }
 
 
@@ -39,5 +40,6 @@ namespace Backend
             product.ProcessShipTransaction(transaction);
             shippedTransactions.Add(transaction);
         }
+
     }
 }

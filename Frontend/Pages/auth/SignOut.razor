@@ -1,0 +1,13 @@
+﻿@page "/auth/sign-out"
+@using Frontend.Data;
+@inject NavigationManager navigationManager
+@inject AuthController auth;
+
+@code {
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        auth.SignOut();
+        navigationManager.NavigateTo("/auth/sign-in");
+    }
+}

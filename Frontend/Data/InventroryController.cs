@@ -5,23 +5,22 @@ namespace Frontend.Data;
 
 public class InventroyController
 {
-    private readonly Credentials credentials;
-
-    public InventroyController(Credentials creds)
+    private readonly AuthController _authController;
+    public InventroyController(AuthController authController)
     {
-        credentials = creds;
+        _authController = authController;
     }
 
     public void ReceiveProduct(ReceiveProductTransaction transaction, Warehouse warehouse)
     {   
         var inventoryManager = new InventoryManager(warehouse);
-        inventoryManager.ReceiveProduct(credentials, transaction);
+        inventoryManager.ReceiveProduct(_authController.CurrentUserCredentials, transaction);
     }
 
     public void ShipProduct(ShipProductTransaction transaction, Warehouse warehouse)
     {
         var inventoryManager = new InventoryManager(warehouse);
-        inventoryManager.ShipProduct(credentials, transaction);
+        inventoryManager.ShipProduct(_authController.CurrentUserCredentials, transaction);
     }
 
 }

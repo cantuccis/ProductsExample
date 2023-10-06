@@ -3,6 +3,7 @@
 @using Backend
 @inject CurrentWarehouseController currentWarehouseController
 @inject NavigationManager NavigationManager
+@inherits AuthEnforce
 
 <PageTitle>Create product</PageTitle>
 
@@ -43,7 +44,7 @@
     {
         try
         {
-            var product = new Product(currentWarehouseController.NextProductId, currentProductData);
+            var product = new Product(0, currentProductData);
             currentWarehouseController.StoreProduct(product);
             NavigationManager.NavigateTo("/products");
         }
